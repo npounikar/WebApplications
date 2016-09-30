@@ -1,0 +1,112 @@
+
+var deckOfCards[] = deck();
+
+// Object to create a card
+function card(suit, rank) {	
+	
+	this.suit = suit;
+	this.rank = rank;
+	var cardId = suit +','+ rank;
+
+}
+
+//creating deck of cards
+function deck() {
+
+	this.rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+	this.suits = ['C','D','H','S'];
+	var cards = [];
+    
+    for( var s = 0; s < this.suits.length; s++ ) {
+        for( var n = 0; n < this.rank.length; n++ ) {
+            cards.push( new card( this.rank[n], this.suits[s] ) );
+        }
+    }
+
+    return cards;
+}
+
+
+//shuffle the deck of cards
+function shuffle() {
+    var i, n, j, temp;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < this.deckOfCards.length; j++) {
+            k = Math.floor(Math.random() * this.deckOfCards.length);
+            temp = this.deckOfCards[j];
+            this.deckOfCards[j] = this.deckOfCards[k];
+            this.deckOfCards[k] = temp;
+        }
+    }
+    document.write("Cards Shuffled");
+};
+
+
+// Object to create a player
+function player() {	
+	
+	var cardsInHand = 13;
+	var hand[];
+	var bid;
+	
+	getBid: function () {
+        return this.bid;
+    }
+
+}
+
+
+//deal the cards
+function deal() {
+	
+	deck();
+	shuffle();
+}
+
+// Object to maintain the score card
+function scoreboard() {
+	
+	var successfulBid;
+	var failedBid;
+	var currentRoundPoints;
+	var previousRoundPoints;
+	var totalPoints;
+	
+	getSuccessfulBid: function () {
+        return this.successfulBid;
+    }
+	
+	getFailedBid: function () {
+        return this.failedBid;
+    }
+	
+	getCurrentRoundPoints: function () {
+        return this.currentRoundPoints;
+    }
+	
+	getPreviousRoundPoints: function () {
+        return this.previousRoundPoints;
+    }
+	
+	gettotalPoints: function () {
+        return this.totalPoints;
+    }
+	
+}
+
+
+// Object to maintain the statistics of whole game
+function statistics() {
+	
+	var tricksWon;
+	var extraTricksBagged;
+	
+	getTricksWon: function () {
+        return this.tricksWon;
+    }
+	
+	getExtraTricksBagged: function () {
+        return this.extraTricksBagged;
+    }
+}
+

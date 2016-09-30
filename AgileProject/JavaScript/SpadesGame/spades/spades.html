@@ -1,0 +1,197 @@
+<html>
+<head>
+       
+   
+    <title>Spades Game</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/Beans.js"></script>
+    <script>
+	 var cards1 = '{"cards":[' +
+        '{"102":"images/classic-cards/49.png",'+
+        '"103":"images/classic-cards/45.png" ,' +
+        '"104":"images/classic-cards/41.png" ,' +
+        '"105":"images/classic-cards/37.png" ,' +
+        '"106":"images/classic-cards/33.png" ,' +
+        '"107":"images/classic-cards/29.png" ,' +
+        '"108":"images/classic-cards/25.png" ,' +
+        '"109":"images/classic-cards/21.png" ,' +
+        '"110":"images/classic-cards/17.png" ,' +
+        '"111":"images/classic-cards/13.png" ,' +
+        '"112":"images/classic-cards/9.png"  ,' +
+        '"113":"images/classic-cards/5.png"  ,' +
+        '"114":"images/classic-cards/1.png"  ,' +
+        '"202":"images/classic-cards/52.png" ,' +
+        '"203":"images/classic-cards/48.png" ,' +
+        '"204":"images/classic-cards/44.png" ,' +
+        '"205":"images/classic-cards/40.png" ,' +
+        '"206":"images/classic-cards/36.png" ,' +
+        '"207":"images/classic-cards/32.png" ,' +
+        '"208":"images/classic-cards/28.png" ,' +
+        '"209":"images/classic-cards/24.png" ,' +
+        '"210":"images/classic-cards/20.png" ,' +
+        '"211":"images/classic-cards/16.png" ,' +
+        '"212":"images/classic-cards/12.png" ,' +
+        '"213":"images/classic-cards/8.png"  ,' +
+        '"214":"images/classic-cards/4.png"  ,' +
+        '"302":"images/classic-cards/51.png" ,' +
+        '"303":"images/classic-cards/47.png" ,' +
+        '"304":"images/classic-cards/43.png" ,' +
+        '"305":"images/classic-cards/39.png" ,' +
+        '"306":"images/classic-cards/35.png" ,' +
+        '"307":"images/classic-cards/31.png" ,' +
+        '"308":"images/classic-cards/27.png" ,' +
+        '"309":"images/classic-cards/23.png" ,' +
+        '"310":"images/classic-cards/19.png" ,' +
+        '"311":"images/classic-cards/15.png" ,' +
+        '"312":"images/classic-cards/11.png" ,' +
+        '"313":"images/classic-cards/7.png"  ,' +
+        '"314":"images/classic-cards/3.png"  ,' +
+        '"402":"images/classic-cards/50.png" ,' +
+        '"403":"images/classic-cards/46.png" ,' +
+        '"404":"images/classic-cards/42.png" ,' +
+        '"405":"images/classic-cards/38.png" ,' +
+        '"406":"images/classic-cards/34.png" ,' +
+        '"407":"images/classic-cards/30.png" ,' +
+        '"408":"images/classic-cards/26.png" ,' +
+        '"409":"images/classic-cards/22.png" ,' +
+        '"410":"images/classic-cards/18.png" ,' +
+        '"411":"images/classic-cards/14.png" ,' +
+        '"412":"images/classic-cards/10.png" ,' +
+        '"413":"images/classic-cards/6.png"  ,' +
+        '"414":"images/classic-cards/2.png"  }]}'
+    </script>
+
+    <script type="text/javascript">
+
+        var correctCards = 0;
+       
+        function handleCardDrop(event, ui) {
+            var slotNumber = $(this).data('number');
+            var cardNumber = ui.draggable.data('number');
+
+            ui.draggable.addClass('correct');
+            ui.draggable.draggable('disable');
+            ui.draggable.position({ of: $(this), my: 'left top', at: 'left top' });
+            ui.draggable.draggable('option', 'revert', false);
+            correctCards++;
+
+        }
+
+
+        function assignImagetoCards(hand) {
+            obj = JSON.parse(cards1);
+            // Hide the success message
+            $('#successMessage').hide();
+            $('#successMessage').css({
+                left: '580px',
+                top: '250px',
+                width: 0,
+                height: 0
+            });
+
+            // Reset the game
+            correctCards = 0;
+            $('#cardPile').html('');
+            $('#cardSlots').html('');
+
+            // Create the pile of shuffled cards
+            var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+            numbers.sort(function () { return Math.random() - .5 });
+
+            for(var cardid in hand){
+                $('<div></div>').data('number', numbers[cardid]).attr('id', 'card' + numbers[cardid]).attr('style', 'background-image:url(' + obj.cards[0][hand[cardid]] + ');background-repeat:no-repeat;').appendTo('#cardPile').draggable({
+                        containment: '#content',
+                        stack: '#cardPile div',
+                        cursor: 'move',
+                        revert: true
+                    });
+            }
+            // Create the card slots
+            var words = [''];
+            for (var i = 1; i <= 1; i++) {
+                $('<div>' + words[i - 1] + '</div>').data('number', i).appendTo('#cardSlots').droppable({
+                    accept: '#cardPile div',
+                    hoverClass: 'hovered',
+                    drop: handleCardDrop
+                });
+            }
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+ 
+    <img src="images/spades-image.png" />
+    <link rel="stylesheet" type="text/css" href="stylesheet/style.css" />
+    
+        <div id="frame">
+            <div id="north" style="position: absolute; left: 600px; top: 10px;">
+                <figure>
+                    <img src="images/player-1.png" alt="Player3" style="left: 200px; bottom: 250px; width: 128px; height: 150px;">
+                </figure>
+				<span id="name3"><strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPlayer 3</strong></span> <br>
+				<span hidden id="bid3"><strong>BID : 0</strong></span>
+            </div>
+            <div id="east" style="position: absolute; left: 1200px; top: 200px;">
+                <figure>
+                    <img src="images/player-1.png" alt="Player2" style="left: 200px; bottom: 250px; width: 128px; height: 150px;">
+                    
+                </figure>
+				<span id="name4" ><strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPlayer 4</strong></span><br>
+				<span hidden id="bid4"><strong>BID : 0</strong></span>
+            </div>
+
+            <div id="south" style="position: absolute; left: 200px; top: 500px;">
+
+                <div id="cardPile" class="cardbox">
+                    <div id="card1" class="ui-draggable">1</div>
+                    <div id="card2" class="ui-draggable">2</div>
+                    <div id="card3" class="ui-draggable">3</div>
+                    <div id="card4" class="ui-draggable">4</div>
+                    <div id="card5" class="ui-draggable">5</div>
+                    <div id="card6" class="ui-draggable">6</div>
+                    <div id="card7" class="ui-draggable">7</div>
+                    <div id="card8" class="ui-draggable">8</div>
+                    <div id="card9" class="ui-draggable">9</div>
+                    <div id="card10" class="ui-draggable">10</div>
+                    <div id="card11" class="ui-draggable">11</div>
+                    <div id="card12" class="ui-draggable">12</div>
+                    <div id="card13" class="ui-draggable">13</div>
+
+                </div>
+
+				<span id="name1"><strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPlayer 1</strong></span><br>
+				<span hidden id="bid1"><strong>BID : 0</strong></span>
+
+            </div>
+            <div id="west" style="position: absolute; top: 200px;">
+                <figure>
+                    <img src="images/player-1.png" alt="Player1" style="left: 200px; bottom: 250px; width: 128px; height: 150px;">
+                    
+                </figure>
+				<span id="name2"><strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPlayer 2</strong></span><br>
+				<span hidden id="bid2"><strong>BID : 0</strong></span>
+            </div>
+
+        </div>
+        <div id="map" style="position: absolute; top: 300px; left: 600px">
+            <input type="button"" id="btnDeal"  value="DEAL" OnClick="deal()" />
+            <div id="cardSlots" button=""  style="width: <asp:Button runat=">
+                <div class="ui-droppable">drop here </div>
+                
+            </div>
+            
+        </div>
+
+   
+</body>
+</html>
